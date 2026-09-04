@@ -13,7 +13,7 @@ Often when networks transfer packets from machines, they lose packets and extra 
 - Run length(how many packets were lost back to back)
 
 ## The profiles
-    "A profile will show the type of degradability during packet tranfers in this experiment"
+   "A profile will show the type of degradability during packet tranfers in this experiment"
 | Profile | What it does | 
 | -------- | -------- |
 | clean | Baseline - No loss or damage| 
