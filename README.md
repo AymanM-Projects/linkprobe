@@ -4,18 +4,22 @@
 
 ## Why
 
-Often when networks transfer packers from machines, they lose packets and extra run time and add delay, or drop them in unnesary bursts. Most current work assumes losses are independent. Through linkprobe, observations of what happens during packet loss and creating a formula to identify and combat that is the main goal. 
+Often when networks transfer packets from machines, they lose packets and extra run time and add delay, or drop them in unnecessary bursts. Most current work assumes losses are independent. Through linkprobe, observations of what happens during packet loss and creating a formula to identify and combat that is the main goal. 
 
 ## What it measures
 
-<!-- bullet list: round-trip time per message, sequence gaps (loss),
-     length of each run of consecutive losses -->
+    - Round trip time per message(seconds of how long packets take from one machine to another)
+    - packet sequence gaps(packet loss)
+    - Run length(how many packets were lost back to back)
 
 ## The profiles
+    table: profile | what it does|
+    clean	no impairment — your baseline
+    latency-ladder	fixed delay, stepped 0 → 250 ms in 50 ms increments
+    jitter	delay that varies around a mean, e.g. 100 ms ± 30 ms
+    bernoulli-loss	each packet independently dropped with probability p — the standard assumption
+    gilbert-elliott	two-state model, good and bad; losses cluster into bursts — what real networks do
 
-<!-- table: profile name | what it simulates | the command
-     clean, latency-ladder, jitter, bernoulli-loss, gilbert-elliott
-     Mark the ones not built yet as "planned" - honesty reads well -->
 
 ## Install
 
