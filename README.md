@@ -4,9 +4,7 @@
 
 ## Why
 
-<!-- 2-3 sentences. Networks don't fail cleanly - they add delay,
-     drop packets, and drop them in bursts. Most work assumes losses
-     are independent. Say why that assumption matters. -->
+Often when networks transfer packers from machines, they lose packets and extra run time and add delay, or drop them in unnesary bursts. Most current work assumes losses are independent. Through linkprobe, observations of what happens during packet loss and creating a formula to identify and combat that is the main goal. 
 
 ## What it measures
 
