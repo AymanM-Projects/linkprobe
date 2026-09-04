@@ -8,17 +8,19 @@ Often when networks transfer packets from machines, they lose packets and extra 
 
 ## What it measures
 
-    - Round trip time per message(seconds of how long packets take from one machine to another)
-    - packet sequence gaps(packet loss)
-    - Run length(how many packets were lost back to back)
+- Round trip time per message(seconds of how long packets take from one machine to another)
+- packet sequence gaps(packet loss)
+- Run length(how many packets were lost back to back)
 
 ## The profiles
-    table: profile | what it does|
-    clean	no impairment — your baseline
-    latency-ladder	fixed delay, stepped 0 → 250 ms in 50 ms increments
-    jitter	delay that varies around a mean, e.g. 100 ms ± 30 ms
-    bernoulli-loss	each packet independently dropped with probability p — the standard assumption
-    gilbert-elliott	two-state model, good and bad; losses cluster into bursts — what real networks do
+    "A profile will show the type of degradability during packet tranfers in this experiment"
+| Profile | What it does | 
+| -------- | -------- |
+| clean | Baseline - No loss or damage| 
+| latency-ladder | a fixed delay, stepped: 0, 50, 100, 150, 200, 250 ms | 
+| jitter | varying delay - mean 100ms|
+| bernoulli-loss | packets get dropped independently with a probability of p, common assumption in modern network research |
+| gilbert-elliott | losses arrives in bursts - many packets loss at one |
 
 
 ## Install
@@ -26,8 +28,8 @@ Often when networks transfer packets from machines, they lose packets and extra 
 <!-- fill in once there's something to install -->
 
 ## Status
-
-<!-- what works today, what's next. Update this as you go. -->
+#Day 1:
+    created readme, github, hackatime, and stardance account. Did beginning research and understanding concepts of packet loss in networks.
 
 ## Results
 <!-- what i actually delivered-->
