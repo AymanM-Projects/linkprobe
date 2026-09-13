@@ -1,18 +1,22 @@
 """Echo Client: sends packets to the server. """
 
-import socket
-import struct
-import time
-from collections import Counter
-import statistics
+import socket # makes udp
+import struct # turns bites to strings and back
+import time # for sleep and time
+from collections import Counter # makes dictionaries that count the number of occurrences of each element in a list
+import statistics # mean, median, max, min etc
+import csv #makes a csv file to save the data 
 
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # create a UDP socket
-sock.settimeout(1.0)
+
 
 SERVER = "127.0.0.1"
 PACKETS = 1000
 TIMEOUT = 1.0 
 INTERVAL = 0.05 # seconds
+PORT = 9999
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # create a UDP socket
+sock.settimeout(TIMEOUT)
 
 
 sent = 0
@@ -21,10 +25,12 @@ current_run = 0
 runs = []
 rtts = []
 
-for seq in range(1000):
+for seq in range(PACKETS):
     t_send= time.perf_counter()
+    # a timeperf_counter() is a function that returns the value (in fractional seconds) of a performance counter, or in simpleier worsds, 
+        #subtracts two arbtirary times to get difference
     p = struct.pack("!Qd", seq , t_send)
-    sock.sendto(p, ("127.0.0.1", 9999)) # send data to the server
+    sock.sendto(p, (SERVER, PORT)) # send data to the server
     sent += 1
     try:
         data, addr = sock.recvfrom(1024) # receive data from the server, 1024 is the buffer size
@@ -42,7 +48,7 @@ for seq in range(1000):
         lost += 1
         current_run += 1 # if a packet is lost, we increment the current run of lost packets
         print("Lost packet, seq:", seq)
-    time.sleep(0.05) # wait 0.1 seconds before sending the next packet
+    time.sleep(INTERVAL) # wait 0.1 seconds before sending the next packet
 if current_run > 0:
     runs.append(current_run)
 
@@ -54,5 +60,3 @@ print(f"Run times: {Counter(runs)}") # prints how many times a packet was lost i
 # counter is a class that counts the number of occurrences of each element in a list, and returns a dictionary with the element as the key and the number of occurrences as the value.
 # for example a counter of [1, 2, 2, 3, 3, 3] would return {1: 1, 2: 2, 3: 3}
 
-# a timeperf_counter() is a function that returns the value (in fractional seconds) of a performance counter, or in simpleier worsds, 
-    # subtracts two arbtirary times to get difference
