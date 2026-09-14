@@ -1,4 +1,5 @@
 """Echo Client: sends packets to the server. """
+#rtt is round trip time, the time it takes for a packet to go from the client to the server and back to the client.
 
 import socket # makes udp
 import struct # turns bites to strings and back
@@ -32,7 +33,7 @@ timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 filename = f"results/{PROFILE}_{timestamp}.csv"
 packet_file = open(filename, "w", newline="") # open a csv file to save the data
 packet_writer = csv.writer(packet_file) # create a csv writer object[
-packet_writer.writerow(["seq", "timestamp", "rtt_ms", "lost"]) # write the header row
+packet_writer.writerow(["seq", "times_elapsed_secs", "rtt_ms", "lost"]) # write the header row
 t_start = time.perf_counter()
 
 for seq in range(PACKETS):
