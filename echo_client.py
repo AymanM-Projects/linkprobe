@@ -14,9 +14,9 @@ import sys
 
 PROFILE = "clean"
 SERVER = "127.0.0.1"
-PACKETS = 50
+PACKETS = 1000
 TIMEOUT = 1.0
-INTERVAL = 0.1 # seconds
+INTERVAL = 0.01 # seconds
 PORT = 9999
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # create a UDP socket
 sent = 0
@@ -35,7 +35,7 @@ timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 filename = f"results/{PROFILE}_{timestamp}.csv"
 packet_file = open(filename, "w", newline="") # open a csv file to save the data
 packet_writer = csv.writer(packet_file) # create a csv writer object[
-packet_writer.writerow(["seq", "times_elapsed_secs", "rtt_ms", "lost", "late"]) # write the header row
+packet_writer.writerow(["seq", "times_elapsed_secs", "rtt_ms", "lost"]) # write the header row
 t_start = time.perf_counter()
 try: 
     for seq in range(PACKETS):
@@ -79,21 +79,25 @@ try:
             current_run += 1 # if a packet is lost, we increment the current run of lost packets
             is_lost = 1
             print("Lost packet, seq:", seq)
-            packet_writer.writerow([seq, t_send-t_start, rtt, is_lost]) # write the data to the csv file
-            time.sleep(INTERVAL) # wait interval seconds before sending the next packet
+        packet_writer.writerow([seq_back, t_send-t_start, rtt, is_lost]) # write the data to the csv file
+        time.sleep(INTERVAL) # wait interval seconds before sending the next packet
 
-
+    total_Runtime = time.perf_counter() - t_start
+    
     packet_file.close() # close the csv file
     if current_run > 0:
         runs.append(current_run)
 
-    print(f"Sent: {sent}, Lost: {lost},Late {late}, Loss rate: {lost/sent*100:.2f}%") # prints how many were sent, how many were lost, and the loss rate in percentage
+    print(f"Sent: {sent}, Lost: {lost}, Late {late}, Loss rate: {lost/sent*100:.2f}%") # prints how many were sent, how many were lost, and the loss rate in percentage
     if rtts:
         print(f"Average RTT: {statistics.mean(rtts):.4f} ms, Min RTT: {min(rtts):.4f} ms, Max RTT: {max(rtts):.4f} ms, Median RTT: {statistics.median(rtts):.4f} ms") # prints the average, minimum, and maximum round trip time in milliseconds
-
     print(f"Run times: {Counter(runs)}") # prints how many times a packet was lost in a row
     # counter is a class that counts the number of occurrences of each element in a list, and returns a dictionary with the element as the key and the number of occurrences as the value.
     # for example a counter of [1, 2, 2, 3, 3, 3] would return {1: 1, 2: 2, 3: 3}
+    print(f"Total runtime: {total_Runtime:.2f} s ({total_Runtime/60:.1f} min)") # prints the total time it took to send all the packets
+    print(f"Actual send rate: {sent/total_Runtime:.1f} packets/s") # how many packets were sent over total time 
+
+
 
 except KeyboardInterrupt:
     print("Interrupted by user")
