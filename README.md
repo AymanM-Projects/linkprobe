@@ -31,6 +31,11 @@ Often when networks transfer packets from machines, they lose packets and extra 
 #Day 1:
     created readme, github, hackatime, and stardance account. Did beginning research and understanding concepts of packet loss in networks.
 
+## citations and resoruces:
+https://people.computing.clemson.edu/~jmarty/projects/lowLatencyNetworking/papers/APPFEC/GEModelForLossinTheRTInternet.pdf 
+https://its.ntia.gov/umbraco/surface/download/publication?reportNumber=TM-23-565.pdf
+
+
 ## Results
 <!-- what i actually delivered-->
 

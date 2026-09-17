@@ -2,7 +2,7 @@
 #rtt is round trip time, the time it takes for a packet to go from the client to the server and back to the client.
 
 import socket # makes udp
-import struct # turns bites to strings and back
+import struct # converts numbers to bytes and back
 import time # for sleep and time
 from collections import Counter # makes dictionaries that count the number of occurrences of each element in a list
 import statistics # mean, median, max, min etc
@@ -15,7 +15,7 @@ import sys
 PROFILE = "clean"
 SERVER = "127.0.0.1"
 PACKETS = 1000
-TIMEOUT = 1.0
+TIMEOUT = 0.1
 INTERVAL = 0.01 # seconds
 PORT = 9999
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # create a UDP socket
@@ -41,19 +41,18 @@ try:
     for seq in range(PACKETS):
         rtt= "" # this helps in csv file to know if the packet was lost or not, if it was lost, the rtt will be empty
         is_lost = 0 # same with this 
-        t_send= time.perf_counter() # a timeperf_counter() is a function that returns the value (in fractional seconds) of a performance counter, or in simpleier worsds, subtracts two arbtirary times to get difference
+        t_send= time.perf_counter() # a timeperf_counter() is a function that returns the value (in fractional seconds) of a performance counter.You subtract two readings to get a duration.
         p = struct.pack("!Qd", seq , t_send)
         sock.sendto(p, (SERVER, PORT)) # send data to the server
         sent += 1
 
 
 
-        Deadline = t_send + TIMEOUT # this is gonna fix an error to actually show a lost packet intead of it coming when the timeout is over, so we can actually see the lost packet in the csv file 
-        got_reply = False
+        Deadline = t_send + TIMEOUT # the deadline makes sure a late reply isn't mistaken for this packet, and that no packet waits longer than TIMEOUT in total
         while True:
             remaining = Deadline - time.perf_counter() # remaining time until the deadline is reached
             if remaining <= 0:
-                 break
+                break
             sock.settimeout(remaining)
             try: 
                 data, addr = sock.recvfrom(1024) # receive data from the server, 1024 is the buffer size
@@ -79,7 +78,7 @@ try:
             current_run += 1 # if a packet is lost, we increment the current run of lost packets
             is_lost = 1
             print("Lost packet, seq:", seq)
-        packet_writer.writerow([seq_back, t_send-t_start, rtt, is_lost]) # write the data to the csv file
+        packet_writer.writerow([seq, t_send-t_start, rtt, is_lost]) # write the data to the csv file
         time.sleep(INTERVAL) # wait interval seconds before sending the next packet
 
     total_Runtime = time.perf_counter() - t_start
@@ -88,7 +87,7 @@ try:
     if current_run > 0:
         runs.append(current_run)
 
-    print(f"Sent: {sent}, Lost: {lost}, Late {late}, Loss rate: {lost/sent*100:.2f}%") # prints how many were sent, how many were lost, and the loss rate in percentage
+    print(f"Sent: {sent}, Lost: {lost}, Late: {late}, Loss rate: {lost/sent*100:.2f}%") # prints how many were sent, how many were lost, and the loss rate in percentage
     if rtts:
         print(f"Average RTT: {statistics.mean(rtts):.4f} ms, Min RTT: {min(rtts):.4f} ms, Max RTT: {max(rtts):.4f} ms, Median RTT: {statistics.median(rtts):.4f} ms") # prints the average, minimum, and maximum round trip time in milliseconds
     print(f"Run times: {Counter(runs)}") # prints how many times a packet was lost in a row
