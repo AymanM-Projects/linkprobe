@@ -38,7 +38,7 @@ class Jitter:
         self.rng =rng
 
     def decide(self,packet):
-        delay = self.rng.guass(self.mean, self.sd)
+        delay = self.rng.gauss(self.mean, self.sd)
         return True, max(delay,0.0)
     #randomized delay
 

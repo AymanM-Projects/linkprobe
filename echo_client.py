@@ -10,14 +10,9 @@ import csv #makes a csv file to save the data
 from datetime import datetime # tells me current date and tiem
 import os # for file path manipulation bascailly making a file  python cant do it 
 import sys
+from config import PROFILE, PARAMS, SEED, TIMEOUT, PACKETS, INTERVAL, SERVER, PORT
 
 
-PROFILE = "clean"
-SERVER = "127.0.0.1"
-PACKETS = 1000
-TIMEOUT = 0.1
-INTERVAL = 0.01 # seconds
-PORT = 9999
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # create a UDP socket
 sent = 0
 lost = 0
@@ -32,7 +27,11 @@ os.makedirs("results", exist_ok=True)
 
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-filename = f"results/{PROFILE}_{timestamp}.csv"
+param_text = "_".join(f"{key}{value}" for key, value in PARAMS.items())
+parts = [PROFILE, param_text, f"seed{SEED}", timestamp]
+filename = "results/" + "_".join(part for part in parts if part) + ".csv"
+print(f"Run: profile={PROFILE}  params={PARAMS}  seed={SEED}  packets={PACKETS}  timeout={TIMEOUT}  interval={INTERVAL}")
+print(f"Saving to {filename}")
 packet_file = open(filename, "w", newline="") # open a csv file to save the data
 packet_writer = csv.writer(packet_file) # create a csv writer object[
 packet_writer.writerow(["seq", "times_elapsed_secs", "rtt_ms", "lost"]) # write the header row
@@ -49,6 +48,7 @@ try:
 
 
         Deadline = t_send + TIMEOUT # the deadline makes sure a late reply isn't mistaken for this packet, and that no packet waits longer than TIMEOUT in total
+        got_reply = False
         while True:
             remaining = Deadline - time.perf_counter() # remaining time until the deadline is reached
             if remaining <= 0:
@@ -73,6 +73,7 @@ try:
             if current_run > 0: # then we append the current run to the list of runs and reset the current run to 0
                 runs.append(current_run)
                 current_run = 0
+            assert sum(runs) == lost, "burts lenghts don't add up to the loss count" # assert basically means it checks the sum of the runs and then if it is false then it prints our error message
         else:
             lost += 1
             current_run += 1 # if a packet is lost, we increment the current run of lost packets
@@ -95,6 +96,8 @@ try:
     # for example a counter of [1, 2, 2, 3, 3, 3] would return {1: 1, 2: 2, 3: 3}
     print(f"Total runtime: {total_Runtime:.2f} s ({total_Runtime/60:.1f} min)") # prints the total time it took to send all the packets
     print(f"Actual send rate: {sent/total_Runtime:.1f} packets/s") # how many packets were sent over total time 
+    if late > 0:
+        print(f"WARNING: {late} late replies. In a loss profile this should be 0, so TIMEOUT may be too short.")
 
 
 
