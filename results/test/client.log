@@ -1,0 +1,798 @@
+Run: profile=clean  params={}  seed=1  packets=50  timeout=0.1  interval=0.01
+Saving to results/test/clean_seed1_20260919_220406.csv
+seq: 0, rtt: 0.4580 ms
+seq: 1, rtt: 1.0175 ms
+seq: 2, rtt: 0.2463 ms
+seq: 3, rtt: 0.3063 ms
+seq: 4, rtt: 0.3002 ms
+seq: 5, rtt: 0.3561 ms
+seq: 6, rtt: 0.2584 ms
+seq: 7, rtt: 0.3092 ms
+seq: 8, rtt: 0.3647 ms
+seq: 9, rtt: 0.2805 ms
+seq: 10, rtt: 0.2092 ms
+seq: 11, rtt: 0.1608 ms
+seq: 12, rtt: 0.1837 ms
+seq: 13, rtt: 0.1930 ms
+seq: 14, rtt: 0.1819 ms
+seq: 15, rtt: 0.1801 ms
+seq: 16, rtt: 0.3138 ms
+seq: 17, rtt: 0.2038 ms
+seq: 18, rtt: 0.1822 ms
+seq: 19, rtt: 0.2385 ms
+seq: 20, rtt: 0.2256 ms
+seq: 21, rtt: 0.2810 ms
+seq: 22, rtt: 0.2727 ms
+seq: 23, rtt: 0.3554 ms
+seq: 24, rtt: 0.2582 ms
+seq: 25, rtt: 0.3135 ms
+seq: 26, rtt: 0.3355 ms
+seq: 27, rtt: 0.3005 ms
+seq: 28, rtt: 0.2617 ms
+seq: 29, rtt: 0.3043 ms
+seq: 30, rtt: 0.1844 ms
+seq: 31, rtt: 0.2611 ms
+seq: 32, rtt: 0.4148 ms
+seq: 33, rtt: 0.3869 ms
+seq: 34, rtt: 0.5086 ms
+seq: 35, rtt: 0.3503 ms
+seq: 36, rtt: 0.2093 ms
+seq: 37, rtt: 0.1687 ms
+seq: 38, rtt: 0.1685 ms
+seq: 39, rtt: 0.1902 ms
+seq: 40, rtt: 0.1785 ms
+seq: 41, rtt: 0.1592 ms
+seq: 42, rtt: 0.1660 ms
+seq: 43, rtt: 0.2115 ms
+seq: 44, rtt: 0.1738 ms
+seq: 45, rtt: 0.2497 ms
+seq: 46, rtt: 0.2322 ms
+seq: 47, rtt: 0.1990 ms
+seq: 48, rtt: 0.2394 ms
+seq: 49, rtt: 0.2220 ms
+Sent: 50, Lost: 0, Late: 0, Loss rate: 0.00%
+Average RTT: 0.2745 ms, Min RTT: 0.1592 ms, Max RTT: 1.0175 ms, Median RTT: 0.2480 ms
+Run times: Counter()
+Total runtime: 0.61 s (0.0 min)
+Actual send rate: 81.8 packets/s
+Run: profile=bernoulli-loss  params={'loss_rate': 0.1}  seed=1  packets=50  timeout=0.1  interval=0.01
+Saving to results/test/bernoulli-loss_loss_rate0.1_seed1_20260919_220407.csv
+seq: 0, rtt: 0.4352 ms
+seq: 1, rtt: 0.2118 ms
+seq: 2, rtt: 0.1956 ms
+seq: 3, rtt: 0.2273 ms
+seq: 4, rtt: 0.1660 ms
+seq: 5, rtt: 0.2518 ms
+seq: 6, rtt: 0.2066 ms
+seq: 7, rtt: 0.2045 ms
+Lost packet, seq: 8
+Lost packet, seq: 9
+seq: 10, rtt: 0.3731 ms
+seq: 11, rtt: 0.2273 ms
+seq: 12, rtt: 0.2461 ms
+Lost packet, seq: 13
+seq: 14, rtt: 0.3673 ms
+seq: 15, rtt: 0.3134 ms
+seq: 16, rtt: 0.2041 ms
+seq: 17, rtt: 0.2480 ms
+seq: 18, rtt: 0.2320 ms
+Lost packet, seq: 19
+Lost packet, seq: 20
+seq: 21, rtt: 0.4747 ms
+seq: 22, rtt: 0.2073 ms
+seq: 23, rtt: 0.2123 ms
+seq: 24, rtt: 0.2013 ms
+seq: 25, rtt: 0.3419 ms
+Lost packet, seq: 26
+seq: 27, rtt: 0.6028 ms
+seq: 28, rtt: 0.2579 ms
+seq: 29, rtt: 0.2699 ms
+seq: 30, rtt: 0.2670 ms
+seq: 31, rtt: 0.2746 ms
+seq: 32, rtt: 0.4804 ms
+seq: 33, rtt: 0.5319 ms
+seq: 34, rtt: 0.5084 ms
+Lost packet, seq: 35
+seq: 36, rtt: 0.2142 ms
+seq: 37, rtt: 0.2706 ms
+seq: 38, rtt: 0.1923 ms
+seq: 39, rtt: 0.1673 ms
+seq: 40, rtt: 0.2334 ms
+seq: 41, rtt: 7.6725 ms
+seq: 42, rtt: 0.2983 ms
+seq: 43, rtt: 0.3103 ms
+seq: 44, rtt: 0.2782 ms
+seq: 45, rtt: 0.2084 ms
+seq: 46, rtt: 0.3069 ms
+seq: 47, rtt: 0.2445 ms
+seq: 48, rtt: 0.2770 ms
+seq: 49, rtt: 0.2398 ms
+Sent: 50, Lost: 7, Late: 0, Loss rate: 14.00%
+Average RTT: 0.4571 ms, Min RTT: 0.1660 ms, Max RTT: 7.6725 ms, Median RTT: 0.2518 ms
+Run times: Counter({1: 3, 2: 2})
+Total runtime: 1.34 s (0.0 min)
+Actual send rate: 37.4 packets/s
+Run: profile=gilbert-elliott  params={'loss_rate': 0.1, 'mean_burst': 5}  seed=1  packets=50  timeout=0.1  interval=0.01
+Saving to results/test/gilbert-elliott_loss_rate0.1_mean_burst5_seed1_20260919_220409.csv
+seq: 0, rtt: 0.3571 ms
+seq: 1, rtt: 0.2114 ms
+seq: 2, rtt: 0.2117 ms
+seq: 3, rtt: 0.1806 ms
+seq: 4, rtt: 0.2734 ms
+seq: 5, rtt: 0.2087 ms
+seq: 6, rtt: 0.1833 ms
+seq: 7, rtt: 0.1108 ms
+seq: 8, rtt: 0.2054 ms
+seq: 9, rtt: 0.1988 ms
+seq: 10, rtt: 0.2751 ms
+seq: 11, rtt: 0.2172 ms
+Lost packet, seq: 12
+Lost packet, seq: 13
+Lost packet, seq: 14
+Lost packet, seq: 15
+Lost packet, seq: 16
+Lost packet, seq: 17
+seq: 18, rtt: 0.3563 ms
+seq: 19, rtt: 0.3908 ms
+seq: 20, rtt: 0.6581 ms
+seq: 21, rtt: 0.3386 ms
+seq: 22, rtt: 0.3945 ms
+seq: 23, rtt: 0.6117 ms
+seq: 24, rtt: 0.4318 ms
+seq: 25, rtt: 0.4087 ms
+seq: 26, rtt: 0.2488 ms
+seq: 27, rtt: 0.2389 ms
+seq: 28, rtt: 0.1981 ms
+seq: 29, rtt: 0.2108 ms
+seq: 30, rtt: 0.2255 ms
+seq: 31, rtt: 0.4462 ms
+seq: 32, rtt: 0.3122 ms
+seq: 33, rtt: 0.3132 ms
+Lost packet, seq: 34
+Lost packet, seq: 35
+Lost packet, seq: 36
+Lost packet, seq: 37
+seq: 38, rtt: 0.4032 ms
+seq: 39, rtt: 0.3099 ms
+seq: 40, rtt: 0.3306 ms
+seq: 41, rtt: 0.2680 ms
+seq: 42, rtt: 0.2586 ms
+seq: 43, rtt: 0.4150 ms
+seq: 44, rtt: 0.1193 ms
+seq: 45, rtt: 0.3485 ms
+seq: 46, rtt: 0.3230 ms
+seq: 47, rtt: 0.3669 ms
+seq: 48, rtt: 0.3978 ms
+seq: 49, rtt: 0.3134 ms
+Sent: 50, Lost: 10, Late: 0, Loss rate: 20.00%
+Average RTT: 0.3068 ms, Min RTT: 0.1108 ms, Max RTT: 0.6581 ms, Median RTT: 0.3110 ms
+Run times: Counter({6: 1, 4: 1})
+Total runtime: 1.63 s (0.0 min)
+Actual send rate: 30.6 packets/s
+Run: profile=bernoulli-loss  params={'loss_rate': 0.1}  seed=2  packets=50  timeout=0.1  interval=0.01
+Saving to results/test/bernoulli-loss_loss_rate0.1_seed2_20260919_220410.csv
+seq: 0, rtt: 0.2809 ms
+seq: 1, rtt: 0.0797 ms
+Lost packet, seq: 2
+Lost packet, seq: 3
+seq: 4, rtt: 0.3763 ms
+seq: 5, rtt: 0.3140 ms
+seq: 6, rtt: 0.2548 ms
+seq: 7, rtt: 0.3199 ms
+seq: 8, rtt: 0.2275 ms
+seq: 9, rtt: 0.2185 ms
+seq: 10, rtt: 0.2731 ms
+seq: 11, rtt: 0.1742 ms
+seq: 12, rtt: 0.1995 ms
+seq: 13, rtt: 0.2463 ms
+seq: 14, rtt: 0.1668 ms
+seq: 15, rtt: 0.5427 ms
+seq: 16, rtt: 0.5132 ms
+seq: 17, rtt: 0.6019 ms
+seq: 18, rtt: 0.6000 ms
+seq: 19, rtt: 0.3391 ms
+Lost packet, seq: 20
+Lost packet, seq: 21
+seq: 22, rtt: 0.6243 ms
+seq: 23, rtt: 0.8002 ms
+seq: 24, rtt: 0.5644 ms
+seq: 25, rtt: 0.5421 ms
+seq: 26, rtt: 1.0655 ms
+seq: 27, rtt: 0.3255 ms
+seq: 28, rtt: 0.7540 ms
+Lost packet, seq: 29
+seq: 30, rtt: 0.7391 ms
+seq: 31, rtt: 0.4938 ms
+seq: 32, rtt: 0.4968 ms
+seq: 33, rtt: 0.9157 ms
+seq: 34, rtt: 0.3711 ms
+seq: 35, rtt: 0.2555 ms
+seq: 36, rtt: 0.2503 ms
+seq: 37, rtt: 0.4933 ms
+seq: 38, rtt: 0.4835 ms
+seq: 39, rtt: 0.3012 ms
+seq: 40, rtt: 0.3460 ms
+seq: 41, rtt: 0.5902 ms
+seq: 42, rtt: 0.4184 ms
+seq: 43, rtt: 0.3515 ms
+seq: 44, rtt: 0.2806 ms
+seq: 45, rtt: 0.3807 ms
+seq: 46, rtt: 0.5511 ms
+seq: 47, rtt: 0.3225 ms
+seq: 48, rtt: 0.2756 ms
+seq: 49, rtt: 0.4173 ms
+Sent: 50, Lost: 5, Late: 0, Loss rate: 10.00%
+Average RTT: 0.4253 ms, Min RTT: 0.0797 ms, Max RTT: 1.0655 ms, Median RTT: 0.3711 ms
+Run times: Counter({2: 2, 1: 1})
+Total runtime: 1.14 s (0.0 min)
+Actual send rate: 43.9 packets/s
+Run: profile=gilbert-elliott  params={'loss_rate': 0.1, 'mean_burst': 5}  seed=2  packets=50  timeout=0.1  interval=0.01
+Saving to results/test/gilbert-elliott_loss_rate0.1_mean_burst5_seed2_20260919_220412.csv
+seq: 0, rtt: 0.2983 ms
+seq: 1, rtt: 0.1473 ms
+seq: 2, rtt: 0.1987 ms
+seq: 3, rtt: 0.1659 ms
+seq: 4, rtt: 0.2382 ms
+seq: 5, rtt: 0.1589 ms
+seq: 6, rtt: 0.1291 ms
+seq: 7, rtt: 0.1503 ms
+seq: 8, rtt: 0.1362 ms
+seq: 9, rtt: 0.1360 ms
+seq: 10, rtt: 0.1374 ms
+seq: 11, rtt: 0.1955 ms
+seq: 12, rtt: 0.1953 ms
+seq: 13, rtt: 0.1784 ms
+seq: 14, rtt: 0.3364 ms
+seq: 15, rtt: 0.4391 ms
+seq: 16, rtt: 0.5040 ms
+seq: 17, rtt: 0.3596 ms
+seq: 18, rtt: 0.4487 ms
+seq: 19, rtt: 0.3981 ms
+seq: 20, rtt: 0.3949 ms
+seq: 21, rtt: 0.4178 ms
+seq: 22, rtt: 0.4152 ms
+seq: 23, rtt: 0.4032 ms
+seq: 24, rtt: 0.3608 ms
+seq: 25, rtt: 0.3567 ms
+seq: 26, rtt: 0.3053 ms
+seq: 27, rtt: 0.3856 ms
+seq: 28, rtt: 0.3063 ms
+seq: 29, rtt: 0.2803 ms
+seq: 30, rtt: 0.3255 ms
+seq: 31, rtt: 0.4934 ms
+seq: 32, rtt: 0.4565 ms
+seq: 33, rtt: 0.3561 ms
+seq: 34, rtt: 0.3260 ms
+seq: 35, rtt: 0.2322 ms
+seq: 36, rtt: 0.3069 ms
+seq: 37, rtt: 0.3271 ms
+seq: 38, rtt: 0.3096 ms
+seq: 39, rtt: 0.2582 ms
+seq: 40, rtt: 0.2207 ms
+seq: 41, rtt: 0.1318 ms
+seq: 42, rtt: 0.1707 ms
+seq: 43, rtt: 0.1788 ms
+seq: 44, rtt: 0.1699 ms
+seq: 45, rtt: 0.1873 ms
+seq: 46, rtt: 0.2069 ms
+seq: 47, rtt: 0.1836 ms
+seq: 48, rtt: 0.1860 ms
+seq: 49, rtt: 0.1890 ms
+Sent: 50, Lost: 0, Late: 0, Loss rate: 0.00%
+Average RTT: 0.2759 ms, Min RTT: 0.1291 ms, Max RTT: 0.5040 ms, Median RTT: 0.2693 ms
+Run times: Counter()
+Total runtime: 0.63 s (0.0 min)
+Actual send rate: 79.6 packets/s
+Run: profile=bernoulli-loss  params={'loss_rate': 0.1}  seed=3  packets=50  timeout=0.1  interval=0.01
+Saving to results/test/bernoulli-loss_loss_rate0.1_seed3_20260919_220412.csv
+seq: 0, rtt: 0.3173 ms
+seq: 1, rtt: 0.1366 ms
+seq: 2, rtt: 0.1521 ms
+seq: 3, rtt: 0.1341 ms
+seq: 4, rtt: 0.1435 ms
+Lost packet, seq: 5
+Lost packet, seq: 6
+seq: 7, rtt: 0.4218 ms
+seq: 8, rtt: 0.2602 ms
+seq: 9, rtt: 0.2872 ms
+seq: 10, rtt: 0.2719 ms
+seq: 11, rtt: 0.3347 ms
+seq: 12, rtt: 0.2486 ms
+seq: 13, rtt: 0.2470 ms
+seq: 14, rtt: 0.3260 ms
+seq: 15, rtt: 0.3178 ms
+seq: 16, rtt: 0.4675 ms
+seq: 17, rtt: 0.4998 ms
+seq: 18, rtt: 0.5857 ms
+seq: 19, rtt: 0.3327 ms
+seq: 20, rtt: 0.2140 ms
+Lost packet, seq: 21
+seq: 22, rtt: 0.3311 ms
+seq: 23, rtt: 0.1909 ms
+seq: 24, rtt: 0.2849 ms
+Lost packet, seq: 25
+seq: 26, rtt: 0.7404 ms
+seq: 27, rtt: 0.6260 ms
+seq: 28, rtt: 0.5997 ms
+seq: 29, rtt: 0.4805 ms
+seq: 30, rtt: 0.4687 ms
+seq: 31, rtt: 0.5922 ms
+seq: 32, rtt: 0.5354 ms
+seq: 33, rtt: 0.5419 ms
+seq: 34, rtt: 0.4545 ms
+seq: 35, rtt: 0.5451 ms
+seq: 36, rtt: 0.5795 ms
+Lost packet, seq: 37
+seq: 38, rtt: 0.2272 ms
+seq: 39, rtt: 0.1758 ms
+seq: 40, rtt: 0.1753 ms
+seq: 41, rtt: 0.2181 ms
+seq: 42, rtt: 0.1749 ms
+seq: 43, rtt: 0.1739 ms
+seq: 44, rtt: 0.1603 ms
+seq: 45, rtt: 0.1525 ms
+seq: 46, rtt: 0.2445 ms
+seq: 47, rtt: 0.2883 ms
+seq: 48, rtt: 0.1884 ms
+seq: 49, rtt: 0.2009 ms
+Sent: 50, Lost: 5, Late: 0, Loss rate: 10.00%
+Average RTT: 0.3344 ms, Min RTT: 0.1341 ms, Max RTT: 0.7404 ms, Median RTT: 0.2872 ms
+Run times: Counter({1: 3, 2: 1})
+Total runtime: 1.13 s (0.0 min)
+Actual send rate: 44.1 packets/s
+Run: profile=gilbert-elliott  params={'loss_rate': 0.1, 'mean_burst': 5}  seed=3  packets=50  timeout=0.1  interval=0.01
+Saving to results/test/gilbert-elliott_loss_rate0.1_mean_burst5_seed3_20260919_220414.csv
+seq: 0, rtt: 0.3904 ms
+seq: 1, rtt: 0.1975 ms
+seq: 2, rtt: 0.1705 ms
+seq: 3, rtt: 0.1592 ms
+seq: 4, rtt: 0.2010 ms
+Lost packet, seq: 5
+Lost packet, seq: 6
+Lost packet, seq: 7
+Lost packet, seq: 8
+Lost packet, seq: 9
+Lost packet, seq: 10
+Lost packet, seq: 11
+Lost packet, seq: 12
+Lost packet, seq: 13
+seq: 14, rtt: 0.4076 ms
+seq: 15, rtt: 0.3090 ms
+seq: 16, rtt: 0.2822 ms
+seq: 17, rtt: 0.2050 ms
+seq: 18, rtt: 0.2845 ms
+seq: 19, rtt: 0.2299 ms
+seq: 20, rtt: 0.3264 ms
+seq: 21, rtt: 0.2375 ms
+seq: 22, rtt: 0.2426 ms
+seq: 23, rtt: 0.2694 ms
+seq: 24, rtt: 0.3515 ms
+seq: 25, rtt: 0.2836 ms
+seq: 26, rtt: 0.2502 ms
+seq: 27, rtt: 0.2201 ms
+seq: 28, rtt: 0.2433 ms
+seq: 29, rtt: 0.2303 ms
+seq: 30, rtt: 0.2025 ms
+seq: 31, rtt: 0.1680 ms
+seq: 32, rtt: 0.1729 ms
+seq: 33, rtt: 0.2008 ms
+seq: 34, rtt: 0.2130 ms
+seq: 35, rtt: 0.1969 ms
+seq: 36, rtt: 0.1974 ms
+seq: 37, rtt: 0.2073 ms
+seq: 38, rtt: 0.2550 ms
+seq: 39, rtt: 0.2206 ms
+seq: 40, rtt: 0.3981 ms
+seq: 41, rtt: 0.4644 ms
+seq: 42, rtt: 0.4648 ms
+seq: 43, rtt: 0.6624 ms
+seq: 44, rtt: 2.5576 ms
+seq: 45, rtt: 0.6472 ms
+seq: 46, rtt: 0.2881 ms
+seq: 47, rtt: 0.3123 ms
+seq: 48, rtt: 0.2876 ms
+seq: 49, rtt: 0.3047 ms
+Sent: 50, Lost: 9, Late: 0, Loss rate: 18.00%
+Average RTT: 0.3394 ms, Min RTT: 0.1592 ms, Max RTT: 2.5576 ms, Median RTT: 0.2502 ms
+Run times: Counter({9: 1})
+Total runtime: 1.54 s (0.0 min)
+Actual send rate: 32.5 packets/s
+Run: profile=jitter  params={'mean_ms': 100, 'sd_ms': 30}  seed=1  packets=50  timeout=1.0  interval=0.01
+Saving to results/test/jitter_mean_ms100_sd_ms30_seed1_20260919_220415.csv
+seq: 0, rtt: 143.4956 ms
+seq: 1, rtt: 149.0555 ms
+seq: 2, rtt: 107.6671 ms
+seq: 3, rtt: 82.5894 ms
+seq: 4, rtt: 71.6235 ms
+seq: 5, rtt: 102.8054 ms
+seq: 6, rtt: 74.8562 ms
+seq: 7, rtt: 57.7913 ms
+seq: 8, rtt: 111.5325 ms
+seq: 9, rtt: 109.4250 ms
+seq: 10, rtt: 122.0973 ms
+seq: 11, rtt: 75.3512 ms
+seq: 12, rtt: 105.7038 ms
+seq: 13, rtt: 104.8055 ms
+seq: 14, rtt: 58.8244 ms
+seq: 15, rtt: 121.8592 ms
+seq: 16, rtt: 115.2630 ms
+seq: 17, rtt: 173.8337 ms
+seq: 18, rtt: 109.5242 ms
+seq: 19, rtt: 97.1637 ms
+seq: 20, rtt: 137.7934 ms
+seq: 21, rtt: 111.6243 ms
+seq: 22, rtt: 131.0363 ms
+seq: 23, rtt: 89.6995 ms
+seq: 24, rtt: 112.0267 ms
+seq: 25, rtt: 133.0538 ms
+seq: 26, rtt: 123.5547 ms
+seq: 27, rtt: 109.3397 ms
+seq: 28, rtt: 73.0187 ms
+seq: 29, rtt: 115.6185 ms
+seq: 30, rtt: 107.6868 ms
+seq: 31, rtt: 127.0060 ms
+seq: 32, rtt: 112.1711 ms
+seq: 33, rtt: 134.7995 ms
+seq: 34, rtt: 104.2902 ms
+seq: 35, rtt: 111.4683 ms
+seq: 36, rtt: 125.4502 ms
+seq: 37, rtt: 73.0392 ms
+seq: 38, rtt: 93.2459 ms
+seq: 39, rtt: 87.3911 ms
+seq: 40, rtt: 164.8862 ms
+seq: 41, rtt: 102.7650 ms
+seq: 42, rtt: 124.2606 ms
+seq: 43, rtt: 124.2368 ms
+seq: 44, rtt: 97.1737 ms
+seq: 45, rtt: 58.2056 ms
+seq: 46, rtt: 131.2373 ms
+seq: 47, rtt: 93.5890 ms
+seq: 48, rtt: 127.4309 ms
+seq: 49, rtt: 63.2688 ms
+Sent: 50, Lost: 0, Late: 0, Loss rate: 0.00%
+Average RTT: 107.9127 ms, Min RTT: 57.7913 ms, Max RTT: 173.8337 ms, Median RTT: 109.4746 ms
+Run times: Counter()
+Total runtime: 6.00 s (0.1 min)
+Actual send rate: 8.3 packets/s
+Run: profile=latency-ladder  params={'delay_ms': 0}  seed=1  packets=50  timeout=1.0  interval=0.01
+Saving to results/test/latency-ladder_delay_ms0_seed1_20260919_220421.csv
+seq: 0, rtt: 0.3071 ms
+seq: 1, rtt: 0.1517 ms
+seq: 2, rtt: 0.1697 ms
+seq: 3, rtt: 0.1578 ms
+seq: 4, rtt: 0.1825 ms
+seq: 5, rtt: 0.2032 ms
+seq: 6, rtt: 0.1797 ms
+seq: 7, rtt: 0.1804 ms
+seq: 8, rtt: 0.1726 ms
+seq: 9, rtt: 0.1879 ms
+seq: 10, rtt: 0.2126 ms
+seq: 11, rtt: 0.2133 ms
+seq: 12, rtt: 0.2484 ms
+seq: 13, rtt: 0.2489 ms
+seq: 14, rtt: 0.6176 ms
+seq: 15, rtt: 0.4008 ms
+seq: 16, rtt: 0.4052 ms
+seq: 17, rtt: 0.4823 ms
+seq: 18, rtt: 0.7808 ms
+seq: 19, rtt: 2.3698 ms
+seq: 20, rtt: 0.5280 ms
+seq: 21, rtt: 0.6153 ms
+seq: 22, rtt: 0.5413 ms
+seq: 23, rtt: 0.5223 ms
+seq: 24, rtt: 0.5670 ms
+seq: 25, rtt: 0.5418 ms
+seq: 26, rtt: 0.4915 ms
+seq: 27, rtt: 0.5983 ms
+seq: 28, rtt: 0.5387 ms
+seq: 29, rtt: 0.5092 ms
+seq: 30, rtt: 0.5984 ms
+seq: 31, rtt: 0.4834 ms
+seq: 32, rtt: 0.5693 ms
+seq: 33, rtt: 0.5286 ms
+seq: 34, rtt: 0.5857 ms
+seq: 35, rtt: 0.5942 ms
+seq: 36, rtt: 0.5685 ms
+seq: 37, rtt: 0.5573 ms
+seq: 38, rtt: 0.5655 ms
+seq: 39, rtt: 0.6118 ms
+seq: 40, rtt: 0.3279 ms
+seq: 41, rtt: 0.3700 ms
+seq: 42, rtt: 0.1500 ms
+seq: 43, rtt: 0.1404 ms
+seq: 44, rtt: 0.1460 ms
+seq: 45, rtt: 0.1671 ms
+seq: 46, rtt: 0.2019 ms
+seq: 47, rtt: 0.3746 ms
+seq: 48, rtt: 0.4212 ms
+seq: 49, rtt: 0.4260 ms
+Sent: 50, Lost: 0, Late: 0, Loss rate: 0.00%
+Average RTT: 0.4343 ms, Min RTT: 0.1404 ms, Max RTT: 2.3698 ms, Median RTT: 0.4236 ms
+Run times: Counter()
+Total runtime: 0.62 s (0.0 min)
+Actual send rate: 80.7 packets/s
+Run: profile=latency-ladder  params={'delay_ms': 50}  seed=1  packets=50  timeout=1.0  interval=0.01
+Saving to results/test/latency-ladder_delay_ms50_seed1_20260919_220422.csv
+seq: 0, rtt: 55.6879 ms
+seq: 1, rtt: 50.9382 ms
+seq: 2, rtt: 55.4738 ms
+seq: 3, rtt: 53.6568 ms
+seq: 4, rtt: 55.5185 ms
+seq: 5, rtt: 55.7290 ms
+seq: 6, rtt: 55.8171 ms
+seq: 7, rtt: 50.6505 ms
+seq: 8, rtt: 55.5718 ms
+seq: 9, rtt: 52.0474 ms
+seq: 10, rtt: 55.6889 ms
+seq: 11, rtt: 52.3288 ms
+seq: 12, rtt: 54.8271 ms
+seq: 13, rtt: 54.8643 ms
+seq: 14, rtt: 56.9316 ms
+seq: 15, rtt: 54.5126 ms
+seq: 16, rtt: 54.0047 ms
+seq: 17, rtt: 55.5525 ms
+seq: 18, rtt: 55.4226 ms
+seq: 19, rtt: 55.7286 ms
+seq: 20, rtt: 53.1072 ms
+seq: 21, rtt: 51.1958 ms
+seq: 22, rtt: 51.2136 ms
+seq: 23, rtt: 51.1022 ms
+seq: 24, rtt: 51.2038 ms
+seq: 25, rtt: 51.6252 ms
+seq: 26, rtt: 55.6030 ms
+seq: 27, rtt: 55.3932 ms
+seq: 28, rtt: 53.4632 ms
+seq: 29, rtt: 55.4538 ms
+seq: 30, rtt: 51.3082 ms
+seq: 31, rtt: 55.6155 ms
+seq: 32, rtt: 55.9265 ms
+seq: 33, rtt: 53.9932 ms
+seq: 34, rtt: 52.3251 ms
+seq: 35, rtt: 55.7216 ms
+seq: 36, rtt: 55.0941 ms
+seq: 37, rtt: 51.2131 ms
+seq: 38, rtt: 52.9957 ms
+seq: 39, rtt: 51.9457 ms
+seq: 40, rtt: 52.3414 ms
+seq: 41, rtt: 55.5649 ms
+seq: 42, rtt: 55.7271 ms
+seq: 43, rtt: 55.3964 ms
+seq: 44, rtt: 55.0059 ms
+seq: 45, rtt: 53.0642 ms
+seq: 46, rtt: 55.4056 ms
+seq: 47, rtt: 53.8080 ms
+seq: 48, rtt: 55.8255 ms
+seq: 49, rtt: 51.9971 ms
+Sent: 50, Lost: 0, Late: 0, Loss rate: 0.00%
+Average RTT: 54.0118 ms, Min RTT: 50.6505 ms, Max RTT: 56.9316 ms, Median RTT: 54.8457 ms
+Run times: Counter()
+Total runtime: 3.29 s (0.1 min)
+Actual send rate: 15.2 packets/s
+Run: profile=latency-ladder  params={'delay_ms': 100}  seed=1  packets=50  timeout=1.0  interval=0.01
+Saving to results/test/latency-ladder_delay_ms100_seed1_20260919_220426.csv
+seq: 0, rtt: 105.7037 ms
+seq: 1, rtt: 105.5849 ms
+seq: 2, rtt: 105.6458 ms
+seq: 3, rtt: 105.7620 ms
+seq: 4, rtt: 101.0762 ms
+seq: 5, rtt: 103.6525 ms
+seq: 6, rtt: 104.0595 ms
+seq: 7, rtt: 104.8168 ms
+seq: 8, rtt: 104.5676 ms
+seq: 9, rtt: 105.6110 ms
+seq: 10, rtt: 104.4834 ms
+seq: 11, rtt: 105.6983 ms
+seq: 12, rtt: 105.7316 ms
+seq: 13, rtt: 102.8630 ms
+seq: 14, rtt: 101.5289 ms
+seq: 15, rtt: 104.6401 ms
+seq: 16, rtt: 105.4656 ms
+seq: 17, rtt: 103.7096 ms
+seq: 18, rtt: 103.0950 ms
+seq: 19, rtt: 104.6999 ms
+seq: 20, rtt: 105.5814 ms
+seq: 21, rtt: 102.9208 ms
+seq: 22, rtt: 105.6679 ms
+seq: 23, rtt: 105.5870 ms
+seq: 24, rtt: 105.4841 ms
+seq: 25, rtt: 102.5171 ms
+seq: 26, rtt: 104.1330 ms
+seq: 27, rtt: 105.4981 ms
+seq: 28, rtt: 102.8836 ms
+seq: 29, rtt: 103.1983 ms
+seq: 30, rtt: 104.8550 ms
+seq: 31, rtt: 105.4858 ms
+seq: 32, rtt: 102.6479 ms
+seq: 33, rtt: 105.9192 ms
+seq: 34, rtt: 105.5230 ms
+seq: 35, rtt: 104.5209 ms
+seq: 36, rtt: 105.5270 ms
+seq: 37, rtt: 105.5235 ms
+seq: 38, rtt: 105.6126 ms
+seq: 39, rtt: 112.5945 ms
+seq: 40, rtt: 102.2209 ms
+seq: 41, rtt: 105.7764 ms
+seq: 42, rtt: 103.7617 ms
+seq: 43, rtt: 101.7070 ms
+seq: 44, rtt: 102.3331 ms
+seq: 45, rtt: 102.7120 ms
+seq: 46, rtt: 105.5900 ms
+seq: 47, rtt: 105.5439 ms
+seq: 48, rtt: 104.4052 ms
+seq: 49, rtt: 105.4940 ms
+Sent: 50, Lost: 0, Late: 0, Loss rate: 0.00%
+Average RTT: 104.5924 ms, Min RTT: 101.0762 ms, Max RTT: 112.5945 ms, Median RTT: 104.8359 ms
+Run times: Counter()
+Total runtime: 5.85 s (0.1 min)
+Actual send rate: 8.6 packets/s
+Run: profile=latency-ladder  params={'delay_ms': 150}  seed=1  packets=50  timeout=1.0  interval=0.01
+Saving to results/test/latency-ladder_delay_ms150_seed1_20260919_220431.csv
+seq: 0, rtt: 155.5477 ms
+seq: 1, rtt: 153.7012 ms
+seq: 2, rtt: 151.2268 ms
+seq: 3, rtt: 155.6044 ms
+seq: 4, rtt: 153.7310 ms
+seq: 5, rtt: 155.8754 ms
+seq: 6, rtt: 153.0852 ms
+seq: 7, rtt: 155.4761 ms
+seq: 8, rtt: 151.4465 ms
+seq: 9, rtt: 155.6421 ms
+seq: 10, rtt: 155.5526 ms
+seq: 11, rtt: 155.4325 ms
+seq: 12, rtt: 155.3867 ms
+seq: 13, rtt: 152.7096 ms
+seq: 14, rtt: 156.2099 ms
+seq: 15, rtt: 155.5642 ms
+seq: 16, rtt: 151.1019 ms
+seq: 17, rtt: 156.3901 ms
+seq: 18, rtt: 154.8290 ms
+seq: 19, rtt: 155.6035 ms
+seq: 20, rtt: 155.6890 ms
+seq: 21, rtt: 154.2236 ms
+seq: 22, rtt: 153.4004 ms
+seq: 23, rtt: 155.8675 ms
+seq: 24, rtt: 151.6541 ms
+seq: 25, rtt: 155.5825 ms
+seq: 26, rtt: 154.9685 ms
+seq: 27, rtt: 153.6088 ms
+seq: 28, rtt: 155.8759 ms
+seq: 29, rtt: 155.6876 ms
+seq: 30, rtt: 155.5887 ms
+seq: 31, rtt: 151.2450 ms
+seq: 32, rtt: 155.6677 ms
+seq: 33, rtt: 152.0779 ms
+seq: 34, rtt: 155.7875 ms
+seq: 35, rtt: 154.4547 ms
+seq: 36, rtt: 155.6416 ms
+seq: 37, rtt: 151.0827 ms
+seq: 38, rtt: 154.6197 ms
+seq: 39, rtt: 155.4920 ms
+seq: 40, rtt: 154.6401 ms
+seq: 41, rtt: 155.5464 ms
+seq: 42, rtt: 152.9190 ms
+seq: 43, rtt: 152.7996 ms
+seq: 44, rtt: 155.8845 ms
+seq: 45, rtt: 155.7765 ms
+seq: 46, rtt: 152.2024 ms
+seq: 47, rtt: 153.8128 ms
+seq: 48, rtt: 154.5314 ms
+seq: 49, rtt: 155.3851 ms
+Sent: 50, Lost: 0, Late: 0, Loss rate: 0.00%
+Average RTT: 154.4366 ms, Min RTT: 151.0827 ms, Max RTT: 156.3901 ms, Median RTT: 155.3859 ms
+Run times: Counter()
+Total runtime: 8.33 s (0.1 min)
+Actual send rate: 6.0 packets/s
+Run: profile=latency-ladder  params={'delay_ms': 200}  seed=1  packets=50  timeout=1.0  interval=0.01
+Saving to results/test/latency-ladder_delay_ms200_seed1_20260919_220440.csv
+seq: 0, rtt: 205.6577 ms
+seq: 1, rtt: 205.5702 ms
+seq: 2, rtt: 205.5831 ms
+seq: 3, rtt: 205.6686 ms
+seq: 4, rtt: 202.4477 ms
+seq: 5, rtt: 205.5137 ms
+seq: 6, rtt: 206.4208 ms
+seq: 7, rtt: 205.5004 ms
+seq: 8, rtt: 202.3074 ms
+seq: 9, rtt: 205.7267 ms
+seq: 10, rtt: 203.9925 ms
+seq: 11, rtt: 203.9650 ms
+seq: 12, rtt: 205.7640 ms
+seq: 13, rtt: 203.3023 ms
+seq: 14, rtt: 205.9217 ms
+seq: 15, rtt: 204.5149 ms
+seq: 16, rtt: 205.7898 ms
+seq: 17, rtt: 205.4323 ms
+seq: 18, rtt: 202.9927 ms
+seq: 19, rtt: 203.3478 ms
+seq: 20, rtt: 205.5007 ms
+seq: 21, rtt: 201.1673 ms
+seq: 22, rtt: 205.8044 ms
+seq: 23, rtt: 204.4462 ms
+seq: 24, rtt: 205.7477 ms
+seq: 25, rtt: 204.0001 ms
+seq: 26, rtt: 206.0498 ms
+seq: 27, rtt: 205.7142 ms
+seq: 28, rtt: 205.4867 ms
+seq: 29, rtt: 201.6378 ms
+seq: 30, rtt: 203.1207 ms
+seq: 31, rtt: 204.6372 ms
+seq: 32, rtt: 203.9224 ms
+seq: 33, rtt: 205.7945 ms
+seq: 34, rtt: 205.5485 ms
+seq: 35, rtt: 205.6452 ms
+seq: 36, rtt: 205.9140 ms
+seq: 37, rtt: 202.5829 ms
+seq: 38, rtt: 205.7335 ms
+seq: 39, rtt: 203.4623 ms
+seq: 40, rtt: 200.7147 ms
+seq: 41, rtt: 201.4903 ms
+seq: 42, rtt: 201.0005 ms
+seq: 43, rtt: 205.8117 ms
+seq: 44, rtt: 205.7235 ms
+seq: 45, rtt: 205.6235 ms
+seq: 46, rtt: 205.2983 ms
+seq: 47, rtt: 205.1652 ms
+seq: 48, rtt: 202.7226 ms
+seq: 49, rtt: 205.6484 ms
+Sent: 50, Lost: 0, Late: 0, Loss rate: 0.00%
+Average RTT: 204.5307 ms, Min RTT: 200.7147 ms, Max RTT: 206.4208 ms, Median RTT: 205.4936 ms
+Run times: Counter()
+Total runtime: 10.84 s (0.2 min)
+Actual send rate: 4.6 packets/s
+Run: profile=latency-ladder  params={'delay_ms': 250}  seed=1  packets=50  timeout=1.0  interval=0.01
+Saving to results/test/latency-ladder_delay_ms250_seed1_20260919_220451.csv
+seq: 0, rtt: 252.5701 ms
+seq: 1, rtt: 253.2920 ms
+seq: 2, rtt: 255.6878 ms
+seq: 3, rtt: 256.0095 ms
+seq: 4, rtt: 256.0738 ms
+seq: 5, rtt: 255.6637 ms
+seq: 6, rtt: 255.9059 ms
+seq: 7, rtt: 253.7316 ms
+seq: 8, rtt: 253.7722 ms
+seq: 9, rtt: 251.4996 ms
+seq: 10, rtt: 254.1085 ms
+seq: 11, rtt: 255.3113 ms
+seq: 12, rtt: 252.2977 ms
+seq: 13, rtt: 255.6897 ms
+seq: 14, rtt: 255.4425 ms
+seq: 15, rtt: 255.6437 ms
+seq: 16, rtt: 255.9535 ms
+seq: 17, rtt: 254.8758 ms
+seq: 18, rtt: 255.6933 ms
+seq: 19, rtt: 256.3588 ms
+seq: 20, rtt: 255.6208 ms
+seq: 21, rtt: 255.4567 ms
+seq: 22, rtt: 253.7224 ms
+seq: 23, rtt: 254.2840 ms
+seq: 24, rtt: 255.4624 ms
+seq: 25, rtt: 255.7571 ms
+seq: 26, rtt: 251.9995 ms
+seq: 27, rtt: 254.8236 ms
+seq: 28, rtt: 253.0083 ms
+seq: 29, rtt: 254.8142 ms
+seq: 30, rtt: 253.8888 ms
+seq: 31, rtt: 255.6271 ms
+seq: 32, rtt: 254.2613 ms
+seq: 33, rtt: 254.8035 ms
+seq: 34, rtt: 255.4529 ms
+seq: 35, rtt: 252.5080 ms
+seq: 36, rtt: 255.5104 ms
+seq: 37, rtt: 250.7335 ms
+seq: 38, rtt: 255.6450 ms
+seq: 39, rtt: 255.5653 ms
+seq: 40, rtt: 255.6723 ms
+seq: 41, rtt: 255.7326 ms
+seq: 42, rtt: 255.2562 ms
+seq: 43, rtt: 255.5462 ms
+seq: 44, rtt: 255.7764 ms
+seq: 45, rtt: 253.6613 ms
+seq: 46, rtt: 251.3221 ms
+seq: 47, rtt: 255.5335 ms
+seq: 48, rtt: 255.7392 ms
+seq: 49, rtt: 255.6367 ms
+Sent: 50, Lost: 0, Late: 0, Loss rate: 0.00%
+Average RTT: 254.6880 ms, Min RTT: 250.7335 ms, Max RTT: 256.3588 ms, Median RTT: 255.4548 ms
+Run times: Counter()
+Total runtime: 13.34 s (0.2 min)
+Actual send rate: 3.7 packets/s

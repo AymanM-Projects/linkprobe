@@ -11,16 +11,18 @@
 import sys
 import socket
 import time
+from config import load
 from channel import make_channel
-from config import SERVER, PORT, PROFILE, SEED, PARAMS
-
-channel = make_channel(PROFILE, SEED, **PARAMS)
-print(f"Server on {SERVER}:{PORT} Profile={PROFILE} params = {PARAMS} seed ={SEED}")
+from config import SERVER, PORT
+args = load()
+channel = make_channel(args.profile, args.seed, **args.params)
 
 sock=socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # create a UDP socket
 #AF_INET — use IPv4 addresses (the 127.0.0.1 style) 
 #datagram — use UDP packets (as opposed to TCP streams) Sock_streams = tcp 
 sock.bind((SERVER, PORT)) # the adress of the server, with port 9999, the server will listen for incoming packets on this port.
+
+print(f"Server on {SERVER}:{PORT} Profile={args.profile} params = {args.params} seed ={args.seed}",flush = True)
 
 
 try:

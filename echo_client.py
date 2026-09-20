@@ -10,9 +10,16 @@ import csv #makes a csv file to save the data
 from datetime import datetime # tells me current date and tiem
 import os # for file path manipulation bascailly making a file  python cant do it 
 import sys
-from config import PROFILE, PARAMS, SEED, TIMEOUT, PACKETS, INTERVAL, SERVER, PORT
+from config import INTERVAL, SERVER, PORT
+from config import load
 
-
+args = load( )
+PROFILE = args.profile
+SEED = args.seed
+PARAMS = args.params
+PACKETS = args.packets
+TIMEOUT = args.timeout
+LOC = args.outdir
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # create a UDP socket
 sent = 0
 lost = 0
@@ -22,14 +29,15 @@ runs = []
 rtts = []
 
 
-os.makedirs("results", exist_ok=True)
+os.makedirs(LOC, exist_ok=True)
 
 
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
 param_text = "_".join(f"{key}{value}" for key, value in PARAMS.items())
 parts = [PROFILE, param_text, f"seed{SEED}", timestamp]
-filename = "results/" + "_".join(part for part in parts if part) + ".csv"
+name = "_".join(part for part in parts if part)
+filename = os.path.join(LOC, name + ".csv")
 print(f"Run: profile={PROFILE}  params={PARAMS}  seed={SEED}  packets={PACKETS}  timeout={TIMEOUT}  interval={INTERVAL}")
 print(f"Saving to {filename}")
 packet_file = open(filename, "w", newline="") # open a csv file to save the data
