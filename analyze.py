@@ -11,11 +11,16 @@ def parse_name(path):
     name = os.path.splitext(base)[0]
     parts = name.split("_")
     profile = parts[0]
-    for part in parts:
+    seed_idx = None
+    for i,part in enumerate(parts):
         if part.startswith("seed"):
-           seed = int(part[4:])
-
-    return profile, seed
+            seed = int(part[4:])
+            seed_idx = i
+            break
+    if seed_idx is None:
+            raise ValueError(f"no seed value detected in {path}")
+    params = "_".join(parts[1:seed_idx])
+    return profile, params, seed
 def read_run(path):
     with open(path) as f:
         lost_flags = []
@@ -40,7 +45,7 @@ def summarize(rtts, lost_flags):
             big +=1
     deadline_miss_pct =( lost + big)/packets_sent * 100
     p99_rtt_ms = sorted(rtts)[int(len(rtts)*0.99)]
-    return {"packets_sent": packets_sent, "lost": lost, "loss_pct": loss_pct, "mean_rtt_ms": mean_rtt_ms, "median_rtt_ms": median_rtt_ms, "p99_rtt_ms": p99_rtt_ms, "deadline_miss_pct": deadline_miss_pct}
+    return {"packets_sent": packets_sent, "lost": lost, "loss_pct": loss_pct, "mean_rtt_ms": mean_rtt_ms,"over_deadline": big,  "median_rtt_ms": median_rtt_ms, "p99_rtt_ms": p99_rtt_ms, "deadline_miss_pct": deadline_miss_pct}
 def burst_lengths(lost_flags):
     runs = []
     currentrun = 0
@@ -62,10 +67,10 @@ burst_rows = []
 
 paths = sorted(glob.glob("results/*.csv"))
 for path in paths: 
-    profile, seed = parse_name(path)
+    profile, param, seed = parse_name(path)
     rtts, lost_flags = read_run(path)
     b = burst_lengths(lost_flags)
-    row = {"profile":profile, "seed":seed}
+    row = {"profile":profile, "param":param, "seed":seed}
     row.update(summarize(rtts,  lost_flags))
     if b:
         row["mean_burst_len"] = statistics.mean(b)
@@ -75,9 +80,9 @@ for path in paths:
         row["mean_burst_len"] = 0
     summary_rows.append(row)
     for length, count in Counter(b).items():
-        burst_rows.append({"profile": profile, "seed": seed,
+        burst_rows.append({"profile": profile, "param":param,"seed": seed,
                        "burst_len": length, "count": count})
-with open("results/summary.csv", "w", newline="") as f:
-    w = csv.DictWriter(f, fieldnames=["profile", "param", "seed", "packets_sent", "lost", "late", "loss_pct", "mean_rtt_ms", "median_rtt_ms", "p99_rtt_ms", "deadline_miss_pct", "mean_burst_len", "max_burst_len"])
+with open("summary.csv", "w", newline="") as f:
+    w = csv.DictWriter(f, fieldnames=["profile", "param", "seed", "packets_sent", "lost", "over_deadline", "loss_pct", "mean_rtt_ms", "median_rtt_ms", "p99_rtt_ms", "deadline_miss_pct", "mean_burst_len", "max_burst_len"])
     w.writeheader()
     w.writerows(summary_rows)
