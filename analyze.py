@@ -79,10 +79,14 @@ for path in paths:
         row["max_burst_len"] = 0
         row["mean_burst_len"] = 0
     summary_rows.append(row)
-    for length, count in Counter(b).items():
+    for length, count in sorted(Counter(b).items()):
         burst_rows.append({"profile": profile, "param":param,"seed": seed,
                        "burst_len": length, "count": count})
 with open("summary.csv", "w", newline="") as f:
     w = csv.DictWriter(f, fieldnames=["profile", "param", "seed", "packets_sent", "lost", "over_deadline", "loss_pct", "mean_rtt_ms", "median_rtt_ms", "p99_rtt_ms", "deadline_miss_pct", "mean_burst_len", "max_burst_len"])
     w.writeheader()
     w.writerows(summary_rows)
+with open("burst_lengths.csv", "w", newline="") as f:
+    w = csv.DictWriter(f, fieldnames=["profile", "param", "seed", "burst_len", "count"])
+    w.writeheader()
+    w.writerows(burst_rows)
