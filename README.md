@@ -25,7 +25,15 @@ Often when networks transfer packets from machines, they lose packets and extra 
 
 ## Install
 
-<!-- fill in once there's something to install -->
+```
+git clone https://github.com/AymanM-Projects/linkprobe.git
+cd linkprobe
+python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt
+```
+
+needs Python 3.10 or higher 
+matplotlib is only needed for the plotting scripts, and everything else uses the standard library.
 
 ## Status
 
@@ -64,7 +72,7 @@ Created the README, GitHub repo, and Hackatime and Stardance accounts. Did begin
 - A launcher script that restarts the server automatically for every run
 - `summary.csv` and `analyze.py` to produce the burst-length figure
 
-## citations and resoruces:
+## Citations and Resources:
 https://people.computing.clemson.edu/~jmarty/projects/lowLatencyNetworking/papers/APPFEC/GEModelForLossinTheRTInternet.pdf 
 https://its.ntia.gov/umbraco/surface/download/publication?reportNumber=TM-23-565.pdf
 
