@@ -21,6 +21,8 @@ With nothing additionally injected, the program drops zero packets, so in the tr
 ## 3. The clean p99
 
 The clean run's median round-trip time was 0.394 ms and its p99 was 7.366 ms, at 0.03% loss. The 0 ms latency-ladder run, which uses the same loopback path, had a p99 of 1.809 ms.
+The 7.366 ms p99 does not come from the link, because loopback has no physical link. The most likely cause is the operating system briefly pausing the client and server processes. For about 10 seconds of the run 
+(54 s to 64 s, sequence numbers 4243 to 4547), replies were repeatedly slow. All three timed-out packets from section 2 fall inside that window, and so do 14 of the 16 replies that took longer than 50 ms.
 
 
 ## 4. Injector validation
