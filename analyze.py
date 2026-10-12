@@ -73,11 +73,14 @@ for path in paths:
     row = {"profile":profile, "param":param, "seed":seed}
     row.update(summarize(rtts,  lost_flags))
     if b:
-        row["mean_burst_len"] = statistics.mean(b)
+        row["mean_burst_len"] = round(statistics.mean(b), 3)
         row["max_burst_len"] = max(b)
+
     else: 
-        row["max_burst_len"] = 0
-        row["mean_burst_len"] = 0
+        row["max_burst_len"] = ""
+        row["mean_burst_len"] = ""
+    for col in [ "loss_pct", "mean_rtt_ms", "median_rtt_ms", "p99_rtt_ms", "deadline_miss_pct"]:
+        row[col] = round(row[col], 3)        
     summary_rows.append(row)
     for length, count in sorted(Counter(b).items()):
         burst_rows.append({"profile": profile, "param":param,"seed": seed,
