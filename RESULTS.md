@@ -28,14 +28,21 @@ The 7.366 ms p99 does not come from the link, because loopback has no physical l
 ## 4. Injector validation
 
 Gilbert-Elliott was configured for a mean burst of 5 packets. Measured end to end over the network, the three seeds gave 4.791, 4.966, and 4.916.
-This proves the configuration for the Gilbert-Elliott pipeline accurately emulates our configured mean burst in the data.
+This shows the configuration for the Gilbert-Elliott pipeline accurately emulates our configured mean burst in the data.
 
 ## 5. Deadline_MS
 
-The deadline of 50 ms in analyze.py is an arbitrary deadline amount.
+The deadline of 50 ms in `analyze.py` is an arbitrary deadline amount.
+This deadline is used by `analyze.py` to calculate `deadline_miss_pct` and `over_deadline`. A later deadline-sweep figure will use many different deadlines instead of just this one.
 
 ## 6. Replay check
 
+In `verify_replay.py`, I used each run's seed to rebuild its channel and compared the channel's decisions, packet by packet, to the `lost` column in each run's CSV. Across all 6 runs (3 Bernoulli, 3 GE) and 60,000 packets sent, 59,999 matched. The one difference was a late packet (GE seed 2, seq 8409), not a drop caused by the injector. The channel delivered it, but the reply arrived after the 0.1 s timeout, so the client marked it as lost (`results/client.log` line 48445).
+
+To reproduce: `python3 verify_replay.py`
 
 ## 7. Limitations
 
+- The p99 only counts the round-trip time (RTT) of packets that were delivered. Lost packets have no RTT, so a run with many lost packets could still show a good p99. It is important to read this value alongside the loss %.
+- The latency ladder and the jitter run each used only one seed, so there are no repeated trials for them.
+- The client-server loop only has impairment on one leg rather than both. Impairment can only happen on the server side, after it receives the packet from the client and before it replies. This means the client-to-server leg is always clean. In real applications, packets can be lost in both directions, so the round-trip loss could be higher. 
