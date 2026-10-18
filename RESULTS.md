@@ -33,7 +33,7 @@ This shows the configuration for the Gilbert-Elliott pipeline accurately emulate
 ## 5. Deadline_MS
 
 The deadline of 50 ms in `analyze.py` is an arbitrary deadline amount.
-This deadline is used by `analyze.py` to calculate `deadline_miss_pct` and `over_deadline`. A later deadline-sweep figure will use many different deadlines instead of just this one.
+This deadline is used by `analyze.py` to calculate `deadline_miss_pct` and `over_deadline`. A later deadline-sweep(section #8) figure will use many different deadlines instead of just this one.
 
 ## 6. Replay check
 
@@ -41,7 +41,47 @@ In `verify_replay.py`, I used each run's seed to rebuild its channel and compare
 
 To reproduce: `python3 verify_replay.py`
 
-## 7. Limitations
+## 7. Latency ladder
+
+![Latency ladder](figures/latency_ladder.png)
+
+`plot_ladder.py` plots six runs with a fixed injected delay of 0 to 250 ms, 1,000 packets each. The dashed line is y = x, where the measured RTT would exactly equal the injected delay.
+
+| injected delay (ms) | median RTT (ms) | p99 RTT (ms) | median − injected (ms) |
+|---------------------|-----------------|--------------|------------------------|
+| 0                   | 0.352           | 1.809        | 0.35                   |
+| 50                  | 54.800          | 56.132       | 4.80                   |
+| 100                 | 104.807         | 107.558      | 4.81                   |
+| 150                 | 155.050         | 157.344      | 5.05                   |
+| 200                 | 205.213         | 208.148      | 5.21                   |
+| 250                 | 254.933         | 259.243      | 4.93                   |
+
+At every nonzero rung, the median sits 4.8 to 5.2 ms above the injected delay, and the p99 is only 1.3 to 4.3 ms above the median, so a fixed delay has almost no spread. The offset stays the same as the delay grows, so the injector adds the right amount of delay plus a constant offset. The 0 ms rung's median is only 0.35 ms, so loopback is not the cause. The most likely cause is the server oversleeping in `time.sleep()`, but this has not been measured directly.
+
+## 8. Deadline sweep
+
+With the single 50 ms deadline from section 5, every nonzero ladder rung shows a `deadline_miss_pct` of 100%, because even the smallest delay (50 ms, measured at 54.8 ms) is above the deadline. One deadline cannot tell these runs apart.
+
+![Deadline sweep](figures/deadline_sweep.png)
+
+`plot_deadline.py` reads each run's per-packet CSV and computes the percentage of packets slower than every deadline from 0 to 300 ms. Lost packets count as a miss at every deadline. No new data was collected.
+
+- **Fixed delay (a cliff):** each curve stays at 100% and then drops almost straight down about 5 ms after its injected delay.
+- **Jitter (a slope):** the curve falls gradually and crosses 50% near its median RTT of about 105 ms.
+
+| deadline (ms) | 100 ms fixed: missed (%) | jitter: missed (%) |
+|---------------|--------------------------|--------------------|
+| 50            | 100                      | 96.78              |
+| 100           | 100                      | 57.26              |
+| 110           | 0.4                      | 43.53              |
+| 150           | 0                        | 6.89               |
+| 200           | 0                        | 0.13               |
+
+The 100 ms fixed run and the jitter run have about the same median RTT (104.8 ms and 105.2 ms). At a 110 ms deadline, the fixed run misses 0.4% and misses nothing past 122 ms. The jitter run misses 43.53% at 110 ms and needs a 176 ms deadline to get under 1%. This is the same idea as section 1: the spread of the delay matters, not just its average. A fixed delay can be planned around. With jitter, the controller has to choose between a long deadline (slow reactions) and frequent misses.
+
+Two details in the jitter run: one packet took 581 ms, and only 2 of 10,000 took longer than 250 ms, so it is a single outlier, most likely the same kind of operating-system pause as in section 3. Three packets took under 5 ms, because `channel.py` (line 42) clips negative random delays to 0.
+
+## 9. Limitations
 
 - The p99 only counts the round-trip time (RTT) of packets that were delivered. Lost packets have no RTT, so a run with many lost packets could still show a good p99. It is important to read this value alongside the loss %.
 - The latency ladder and the jitter run each used only one seed, so there are no repeated trials for them.
