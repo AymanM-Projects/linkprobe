@@ -1,26 +1,40 @@
 # linkprobe
- A codebase that will measure what a network does to messages between two machines: round-trip time, packet loss, and how long losses run in a row. Then degrades the link on purpose through five named profiles, one command each. Built for latency-sensitive robotics work, used as part of experimental methodology layer in robotics research . 
+A codebase that measures what a network does to messages between two machines: round-trip time, packet loss, and how long losses run in a row. It then degrades the link on purpose through five named profiles, one command each. Built for latency-sensitive robotics work, as part of the experimental methodology layer in robotics research.
 
 
 ## Why
 
-Often when networks transfer packets from machines, they lose packets and extra run time and add delay, or drop them in unnecessary bursts. Most current work assumes losses are independent. Through linkprobe, observations of what happens during packet loss and creating a formula to identify and combat that is the main goal. 
+When networks transfer packets between machines, they can add delay, lose packets, or drop them in bursts. Most current work assumes losses are independent. The goal of linkprobe is to observe what actually happens during packet loss and show why the structure of the losses matters, not just the loss rate.
+
+
+## Results
+![Burst-length CCDF](figures/burst_ccdf_titled.png)
+
+At the same 10% loss rate, Gilbert-Elliott bursts averaged 4.4 times longer than Bernoulli bursts (about 4.9 vs 1.1 packets), and the longest burst was 29 packets vs 5, across three seeds.
+
+- [Latency ladder](figures/latency_ladder_titled.png): measured RTT tracks the injected delay with a constant offset of about 5 ms.
+- [Deadline sweep](figures/deadline_sweep_titled.png): jitter turns the cliff into a slope.
+
+See [RESULTS.md](RESULTS.md) for the full results.
 
 ## What it measures
 
-- Round trip time per message(seconds of how long packets take from one machine to another)
-- packet sequence gaps(packet loss)
-- Run length(how many packets were lost back to back)
+- Round-trip time per message (how long a packet takes to go from one machine to the other and back)
+- Packet sequence gaps (packet loss)
+- Run length (how many packets were lost back to back)
+
+Each reply carries its sequence number. The client waits for its own sequence number until that packet's deadline. If no reply comes, the packet is lost. A reply with an older sequence number that shows up later is counted as "late", and it is not credited to the current packet (`echo_client.py`, lines 58 and 75).
 
 ## The profiles
-   "A profile will show the type of degradability during packet tranfers in this experiment"
-| Profile | What it does | 
+A profile sets the type of degradation applied to packets in an experiment.
+
+| Profile | What it does |
 | -------- | -------- |
-| clean | Baseline - No loss or damage| 
-| latency-ladder | a fixed delay, stepped: 0, 50, 100, 150, 200, 250 ms | 
-| jitter | varying delay - mean 100ms|
-| bernoulli-loss | packets get dropped independently with a probability of p, common assumption in modern network research |
-| gilbert-elliott | losses arrives in bursts - many packets loss at one |
+| clean | Baseline: no loss or delay added |
+| latency-ladder | A fixed delay, stepped: 0, 50, 100, 150, 200, 250 ms |
+| jitter | Varying delay: mean 100 ms, sd 30 ms |
+| bernoulli-loss | Packets are dropped independently with probability p, a common assumption in network research |
+| gilbert-elliott | Losses arrive in bursts: many packets are lost at once |
 
 
 ## Install
@@ -32,8 +46,9 @@ python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
 ```
 
-needs Python 3.10 or higher 
-matplotlib is only needed for the plotting scripts, and everything else uses the standard library.
+Needs Python 3.10 or higher. Matplotlib is only needed for the plotting scripts; everything else uses the standard library.
+
+**Warning:** running `run_all.py` overwrites `results/client.log` and adds a second set of CSVs to `results/`. You do not need to re-run it to reproduce the figures, because the plotting scripts read the existing data.
 
 ## Status
 
@@ -65,20 +80,26 @@ Created the README, GitHub repo, and Hackatime and Stardance accounts. Did begin
 - Timeout set to 0.1 s for loss profiles (1.0 s for delay profiles, which must be longer than the largest injected delay).
 - First Gilbert-Elliott runs over loopback (1,000 packets, seed 1): the client's recorded losses matched the channel's injected drop pattern exactly, packet for packet, across 2,000 packets.
 - Found that the server must be restarted before every run: without a restart, the second run continued the seed-1 sequence from packet 1,000 instead of starting over.
-- Two 1,000-packet samples of the same 10% channel measured 18.3% and 10.3% loss, so the real runs will use 10,000 packets and 3 seeds per model.
+- Two 1,000-packet samples of the same 10% channel measured 18.3% and 10.3% loss, so the real runs use 10,000 packets and 3 seeds per model. The cause is variance inflation: Gilbert-Elliott losses come in bursts, so 1,000 packets behave like only about 125 independent samples. The spread is about ±2.7 points at 1,000 packets and ±0.85 at 10,000.
 
-### Next
-- 10,000-packet runs: Bernoulli and Gilbert-Elliott (seeds 1–3), a clean baseline, the latency ladder and jitter
-- A launcher script that restarts the server automatically for every run
-- `summary.csv` and `analyze.py` to produce the burst-length figure
+### Day 6 — Sept 19–22: the launcher
+- `run_all.py` launcher that starts a fresh server for every run. Settings are passed with argparse through `config.load()`.
+- Smoke test, and a first draft of `summary.csv`.
 
-## Citations and Resources:
-https://people.computing.clemson.edu/~jmarty/projects/lowLatencyNetworking/papers/APPFEC/GEModelForLossinTheRTInternet.pdf 
+### Day 7 — Sept 20–29: the full experiment
+- Ran the full matrix (14 runs, ~55 min).
+- Wrote `analyze.py`, which produces `summary.csv` and `burst_lengths.csv`.
+
+### Day 8 — Oct 12–18: write-up and figures
+- `requirements.txt` and install steps.
+- RESULTS.md, and `verify_replay.py` (59,999 of 60,000 packets matched).
+- The burst CCDF figure with theory lines, and the latency-ladder and deadline-sweep figures.
+
+
+## Citations and Resources
+https://people.computing.clemson.edu/~jmarty/projects/lowLatencyNetworking/papers/APPFEC/GEModelForLossinTheRTInternet.pdf
 https://its.ntia.gov/umbraco/surface/download/publication?reportNumber=TM-23-565.pdf
 
-
-## Results
-<!-- what i actually delivered-->
 
 ---
 Built during the NASA x Hack Club Stardance Challenge, 2026.
