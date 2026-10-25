@@ -4,7 +4,9 @@ A codebase that measures what a network does to messages between two machines: r
 
 ## Why
 
-When networks transfer packets between machines, they can add delay, lose packets, or drop them in bursts. Most current work assumes losses are independent. The goal of linkprobe is to observe what actually happens during packet loss and show why the structure of the losses matters, not just the loss rate.
+When networks transfer packets between machines, they can add delay, lose packets, or drop them in bursts. Many tests and simulations treat each packet loss as independent, at a set rate, because that is the simplest approach (Pieper & Voran, 2023). This is a problem for robotics: real links often lose packets in bursts (Haßlinger & Hohlfeld, 2008), and for a control loop that needs a reply every cycle, a burst means several missed cycles in a row, not one scattered miss.
+
+Burst-loss models such as Gilbert-Elliott already exist, but a model on its own does not show what bursts do to a running system. linkprobe puts a Gilbert-Elliott channel and an independent-loss channel, both at the same 10% loss rate, into a real request/response loop and measures the difference. The goal is to observe what actually happens during packet loss and show that the structure of the losses matters, not just the loss rate.
 
 
 ## Results
@@ -13,13 +15,14 @@ When networks transfer packets between machines, they can add delay, lose packet
 At the same 10% loss rate, Gilbert-Elliott bursts averaged 4.4 times longer than Bernoulli bursts (about 4.9 vs 1.1 packets), and the longest burst was 29 packets vs 5, across three seeds.
 
 - [Latency ladder](figures/latency_ladder_titled.png): measured RTT tracks the injected delay with a constant offset of about 5 ms.
-- [Deadline sweep](figures/deadline_sweep_titled.png): jitter turns the cliff into a slope.
+- [Deadline sweep](figures/deadline_sweep_titled.png): jitter turns the cliff into a slope:  With a fixed delay, misses fall from 100% to 0 within a few ms of one deadline. With jitter (same ~105 ms median) they fall gradually, and the deadline has to be 176 ms to get misses under 1%.
 
 See [RESULTS.md](RESULTS.md) for the full results.
 
 ## What it measures
+All experiments ran over loopback on one computer, so the only delay and loss are the ones linkprobe injects.
 
-- Round-trip time per message (how long a packet takes to go from one machine to the other and back)
+- Round-trip time per message (how long a packet takes to go from the client to echo server and back)
 - Packet sequence gaps (packet loss)
 - Run length (how many packets were lost back to back)
 
@@ -33,8 +36,8 @@ A profile sets the type of degradation applied to packets in an experiment.
 | clean | Baseline: no loss or delay added |
 | latency-ladder | A fixed delay, stepped: 0, 50, 100, 150, 200, 250 ms |
 | jitter | Varying delay: mean 100 ms, sd 30 ms |
-| bernoulli-loss | Packets are dropped independently with probability p, a common assumption in network research |
-| gilbert-elliott | Losses arrive in bursts: many packets are lost at once |
+| bernoulli-loss | Packets are dropped independently with probability 10%, a common assumption in network research |
+| gilbert-elliott | Losses arrive in bursts: same 10% average loss, but losses come in runs (average ~5 packets )|
 
 
 ## Install
@@ -48,6 +51,17 @@ python3 -m venv .venv
 
 Needs Python 3.10 or higher. Matplotlib is only needed for the plotting scripts; everything else uses the standard library.
 
+## Run
+Tests (in tests/): 
+```
+.venv/bin/python -m pytest
+```
+Figures: 
+```
+.venv/bin/python plot_burst.py 
+.venv/bin/python plot_ladder.py 
+.venv/bin/python plot_deadline.py
+```
 **Warning:** running `run_all.py` overwrites `results/client.log` and adds a second set of CSVs to `results/`. You do not need to re-run it to reproduce the figures, because the plotting scripts read the existing data.
 
 ## Status
@@ -68,7 +82,7 @@ Created the README, GitHub repo, and Hackatime and Stardance accounts. Did begin
 - Cleaned up the repo (`.gitignore`, removed invalid test CSVs).
 
 ### Day 4 — Sept 16: impairment models
-- Learned the Gilbert-Elliott burst-loss model from Pieper & Voran (NTIA/ITS TM-23-565) and Haßlinger & Hohlfeld.
+- Learned the Gilbert-Elliott burst-loss model from Pieper & Voran (2023) and Haßlinger & Hohlfeld (2008).
 - Wrote `channel.py`: five profiles (clean, latency-ladder, jitter, bernoulli-loss, gilbert-elliott). Each one answers the same question for every packet — send it back, and after how long? — using its own seeded random generator. Gilbert-Elliott settings are computed from a target loss rate and average burst length (two-parameter model, k = 1, h = 0).
 - Generator self-test, 1,000,000 packets each, matched the theory:
   - Bernoulli: loss 9.97%, average burst 1.110 (theory 1.111)
@@ -78,7 +92,7 @@ Created the README, GitHub repo, and Hackatime and Stardance accounts. Did begin
 ### Day 5 — Sept 18: first network runs
 - Added `config.py` so the client and server always read the same profile, settings and seed. The server now runs every packet through the channel, and CSV filenames record the profile, settings and seed.
 - Timeout set to 0.1 s for loss profiles (1.0 s for delay profiles, which must be longer than the largest injected delay).
-- First Gilbert-Elliott runs over loopback (1,000 packets, seed 1): the client's recorded losses matched the channel's injected drop pattern exactly, packet for packet, across 2,000 packets.
+- First Gilbert-Elliott runs over loopback (two 1,000-packet runs): the client's recorded losses matched the channel's injected drop pattern exactly, packet for packet, across 2,000 packets.
 - Found that the server must be restarted before every run: without a restart, the second run continued the seed-1 sequence from packet 1,000 instead of starting over.
 - Two 1,000-packet samples of the same 10% channel measured 18.3% and 10.3% loss, so the real runs use 10,000 packets and 3 seeds per model. The cause is variance inflation: Gilbert-Elliott losses come in bursts, so 1,000 packets behave like only about 125 independent samples. The spread is about ±2.7 points at 1,000 packets and ±0.85 at 10,000.
 
@@ -86,7 +100,7 @@ Created the README, GitHub repo, and Hackatime and Stardance accounts. Did begin
 - `run_all.py` launcher that starts a fresh server for every run. Settings are passed with argparse through `config.load()`.
 - Smoke test, and a first draft of `summary.csv`.
 
-### Day 7 — Sept 20–29: the full experiment
+### Day 7 — Sept 23–29: the full experiment
 - Ran the full matrix (14 runs, ~55 min).
 - Wrote `analyze.py`, which produces `summary.csv` and `burst_lengths.csv`.
 
@@ -97,8 +111,8 @@ Created the README, GitHub repo, and Hackatime and Stardance accounts. Did begin
 
 
 ## Citations and Resources
-https://people.computing.clemson.edu/~jmarty/projects/lowLatencyNetworking/papers/APPFEC/GEModelForLossinTheRTInternet.pdf
-https://its.ntia.gov/umbraco/surface/download/publication?reportNumber=TM-23-565.pdf
+- Haßlinger, G., & Hohlfeld, O. (2008). The Gilbert-Elliott model for packet loss in real time services on the Internet. *14th GI/ITG Conference on Measurement, Modelling and Evaluation of Computer and Communication Systems (MMB 2008)*, Dortmund, Germany. [PDF](https://people.computing.clemson.edu/~jmarty/projects/lowLatencyNetworking/papers/APPFEC/GEModelForLossinTheRTInternet.pdf)
+- Pieper, J., & Voran, S. (2023). *Relationships between Gilbert-Elliot burst error model parameters and error statistics* (NTIA Technical Memorandum TM-23-565). National Telecommunications and Information Administration, U.S. Department of Commerce. [PDF](https://its.ntia.gov/umbraco/surface/download/publication?reportNumber=TM-23-565.pdf)
 
 
 ---
