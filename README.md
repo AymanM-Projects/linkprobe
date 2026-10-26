@@ -40,7 +40,20 @@ A profile sets the type of degradation applied to packets in an experiment.
 | gilbert-elliott | Losses arrive in bursts: same 10% average loss, but losses come in runs (average ~5 packets )|
 
 
-## Install
+## Download (no Python needed)
+
+Grab the executable for your system from the [latest release](https://github.com/AymanM-Projects/linkprobe/releases/latest) and run it. With no arguments it runs a ~20 second demo: Bernoulli vs Gilbert-Elliott loss at the same 10% rate, side by side, with burst-length counts for each.
+
+```
+./linkprobe-linux-x86_64                       # or double-click linkprobe-windows-x86_64.exe
+./linkprobe-macos-arm64 demo --profile jitter --params '{"mean_ms": 100, "sd_ms": 30}' --timeout 1.0
+./linkprobe-macos-arm64 server --profile clean --seed 1     # run server and client yourself
+./linkprobe-macos-arm64 client --profile clean --seed 1
+```
+
+On macOS/Linux, `chmod +x` the file first. Per-packet CSVs are written to `linkprobe_results/`.
+
+## Install (from source)
 
 ```
 git clone https://github.com/AymanM-Projects/linkprobe.git

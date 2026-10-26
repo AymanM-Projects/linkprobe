@@ -2,3 +2,7 @@
 __pycache__
 results/test/
 .venv/
+build/
+dist/
+*.spec
+linkprobe_results/

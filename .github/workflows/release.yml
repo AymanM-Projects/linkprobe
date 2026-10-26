@@ -1,0 +1,72 @@
+name: Build release executables
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            asset: linkprobe-linux-x86_64
+          - os: windows-latest
+            asset: linkprobe-windows-x86_64.exe
+          - os: macos-latest
+            asset: linkprobe-macos-arm64
+          - os: macos-13
+            asset: linkprobe-macos-x86_64
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install PyInstaller
+        run: pip install pyinstaller
+      - name: Test
+        run: |
+          pip install pytest
+          python -m pytest -q
+      - name: Build
+        run: pyinstaller --onefile --name linkprobe linkprobe.py
+      - name: Smoke test the executable
+        shell: bash
+        run: |
+          EXE=dist/linkprobe; [ -f dist/linkprobe.exe ] && EXE=dist/linkprobe.exe
+          "$EXE" demo --packets 100 --outdir smoke
+      - name: Rename
+        shell: bash
+        run: |
+          if [ -f dist/linkprobe.exe ]; then mv dist/linkprobe.exe "dist/${{ matrix.asset }}"; else mv dist/linkprobe "dist/${{ matrix.asset }}"; fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.asset }}
+          path: dist/${{ matrix.asset }}
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: assets
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: assets/*
+          body: |
+            Standalone executables, no Python needed. Download the one for your system and run it.
+            With no arguments it runs the demo: Bernoulli vs Gilbert-Elliott packet loss at the same 10% rate,
+            over loopback, about 20 seconds. See the README for the other commands.
+
+            - Windows: `linkprobe-windows-x86_64.exe` (SmartScreen may warn on unsigned exes: More info -> Run anyway)
+            - macOS: `chmod +x linkprobe-macos-*` then run it; if blocked, `xattr -d com.apple.quarantine linkprobe-macos-*`
+            - Linux: `chmod +x linkprobe-linux-x86_64 && ./linkprobe-linux-x86_64`
