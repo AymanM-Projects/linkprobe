@@ -20,8 +20,6 @@ jobs:
             asset: linkprobe-windows-x86_64.exe
           - os: macos-latest
             asset: linkprobe-macos-arm64
-          - os: macos-13
-            asset: linkprobe-macos-x86_64
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
